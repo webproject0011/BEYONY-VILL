@@ -14,144 +14,129 @@ def get_client():
 
 supabase = get_client()
 
-# 2. UI Styling (Wide Spacing + Thin Large Font + Clean Footer)
+# 2. UI Styling (100% Match with Screenshots)
 st.markdown("""
     <style>
-    /* Background */
+    /* Full Page Background with Dark Cityscape Overlay */
     .stApp {
-        background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), 
+        background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
                     url("https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?q=80&w=2044&auto=format&fit=crop");
         background-size: cover !important;
         background-position: center !important;
         background-attachment: fixed !important;
     }
 
-    /* THE MEGA HEADER - THIN & SPACED */
-    .header-box { text-align: center; padding: 50px 0 10px 0; }
+    /* HEADER SECTION - Exact Font & Alignment */
+    .header-box { 
+        text-align: center; 
+        padding-top: 15vh; 
+        padding-bottom: 20px; 
+    }
     .main-title {
-        font-family: 'Inter', sans-serif;
-        font-size: 13.5rem; /* Pehle se bada size */
-        font-weight: 300;   /* Patla font rkha h (Lightweight) */
+        font-family: 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        font-size: 6rem; /* Size matched to screenshot */
+        font-weight: 800;
         color: #FFFFFF;
         margin: 0;
         text-transform: uppercase;
-        line-height: 0.9;
-        letter-spacing: 15px; /* Letter door-door rkhne ke liye */
-        text-shadow: 0px 10px 30px rgba(0,0,0,0.5);
+        letter-spacing: 2px;
+        line-height: 1.1;
     }
-    
-    @media (max-width: 768px) {
-        .main-title { 
-            font-size: 4.5rem; 
-            letter-spacing: 5px; 
-            font-weight: 400;
-        }
-    }
-
     .tagline {
         color: #4fc3f7;
-        font-size: 1.5rem;
-        font-weight: 600;
-        letter-spacing: 10px;
+        font-size: 1rem;
+        font-weight: 700;
+        letter-spacing: 4px;
         text-transform: uppercase;
-        margin-top: 25px;
+        margin-top: 15px;
     }
 
-    /* Search & Suggestions */
-    div[data-baseweb="popover"] { top: 65px !important; bottom: auto !important; }
+    /* SEARCH ENGINE UI - Translucent Style */
+    div[data-baseweb="input"], div[data-baseweb="select"] {
+        background-color: rgba(255, 255, 255, 0.1) !important;
+        border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        border-radius: 4px !important;
+        color: white !important;
+    }
     
-    div[data-baseweb="input"] {
-        background-color: rgba(255, 255, 255, 0.2) !important;
-        border: 1px solid rgba(255, 255, 255, 0.3) !important;
-        border-radius: 10px !important;
+    input { color: white !important; }
+
+    /* SUGGESTIONS LIST - Forced Downward as in Screenshot */
+    div[data-baseweb="popover"] {
+        top: 50px !important;
+        background-color: #1a1c23 !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
     }
 
-    /* Result Cards */
+    /* RESULT CARD - Dark & Professional */
     .result-card {
-        background: rgba(15, 23, 42, 0.96);
-        backdrop-filter: blur(25px);
+        background: rgba(15, 23, 42, 0.95);
+        backdrop-filter: blur(20px);
         border: 1px solid rgba(255, 255, 255, 0.1);
-        padding: 50px;
-        border-radius: 20px;
-        margin-top: 40px;
-        animation: slideIn 0.8s ease-out;
-    }
-    
-    @keyframes slideIn {
-        from { opacity: 0; transform: translateY(50px); }
-        to { opacity: 1; transform: translateY(0); }
+        padding: 40px;
+        border-radius: 8px;
+        margin-top: 30px;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.5);
     }
 
     .v-header {
-        font-size: 3.5rem;
+        font-size: 2.5rem;
         font-weight: 700;
         color: #FFFFFF;
-        border-left: 10px solid #4fc3f7;
-        padding-left: 25px;
-        margin-bottom: 35px;
+        margin-bottom: 25px;
     }
 
     .data-tile {
-        background: rgba(255, 255, 255, 0.05);
-        padding: 25px;
-        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.03);
+        padding: 20px;
+        border-radius: 6px;
         margin-bottom: 15px;
     }
-    .tile-label { color: #94a3b8; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; }
-    .tile-value { color: #FFFFFF; font-size: 1.6rem; font-weight: 500; }
+    .tile-label { color: #94a3b8; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; }
+    .tile-value { color: #FFFFFF; font-size: 1.4rem; font-weight: 500; }
 
-    /* CLEAN DARK FOOTER */
+    /* FOOTER - Minimalist Dark Style */
     .footer {
         position: fixed;
         bottom: 0; left: 0; width: 100%;
-        background: #000000;
-        padding: 20px;
+        background: rgba(0, 0, 0, 0.9);
+        padding: 15px;
         text-align: center;
         z-index: 1000;
-        border-top: 2px solid #4fc3f7;
     }
     .footer-text { 
-        color: #FFFFFF; 
-        font-size: 1rem; 
-        font-weight: 400;
-        letter-spacing: 1px;
-    }
-    .author-name { 
-        color: #4fc3f7; 
-        font-weight: 700; 
+        color: rgba(255, 255, 255, 0.4); 
+        font-size: 0.75rem; 
         text-transform: uppercase;
-        margin-left: 8px;
+        letter-spacing: 2px;
     }
+    .bold-name { color: rgba(255, 255, 255, 0.8); font-weight: 700; }
     </style>
     """, unsafe_allow_html=True)
 
-# 3. Header
+# 3. Header Section
 st.markdown("""
     <div class="header-box">
-        <h1 class="main-title">BEYOND<br>CITIES</h1>
-    </div>
-    <div style="text-align:center;">
-        <div class="tagline">RURAL INTELLIGENCE ENGINE</div>
+        <h1 class="main-title">BEYOND CITIES</h1>
+        <div class="tagline">RURAL DATA INTELLIGENCE ENGINE</div>
     </div>
     """, unsafe_allow_html=True)
 
-# 4. Engine Logic
+# 4. Search Engine Logic
 l, m, r = st.columns([1, 2, 1])
 
 with m:
-    st.markdown("<br>", unsafe_allow_html=True)
-    sc1, sc2 = st.columns([0.88, 0.12])
-    with sc1:
-        q = st.text_input("SEARCH", placeholder="🔍 Search villages...", label_visibility="collapsed")
-    with sc2:
-        st.button("GO")
+    # Main Search Input
+    q = st.text_input("SEARCH", placeholder="Search 600,000+ villages instantly...", label_visibility="collapsed")
 
     if q:
-        res = supabase.table("villages").select("*").ilike("Village Name", f"%{q}%").limit(20).execute()
+        res = supabase.table("villages").select("*").ilike("Village Name", f"%{q}%").limit(15).execute()
         
         if res.data:
             options = {f"{r['Village Name']} | {r['Subdistrict Name']} | {r['District Name']}": r for r in res.data}
-            sel = st.selectbox("LIST", options=list(options.keys()), index=None, label_visibility="collapsed", placeholder="Select village ↓")
+            
+            # Suggestion List UI
+            sel = st.selectbox("SELECT", options=list(options.keys()), index=None, label_visibility="collapsed", placeholder="Select from suggestions below ↓")
 
             if sel:
                 v = options[sel]
@@ -159,13 +144,13 @@ with m:
                 st.markdown(f'<div class="v-header">{v["Village Name"]}</div>', unsafe_allow_html=True)
                 
                 c1, c2 = st.columns(2)
-                d_map = [
+                fields = [
                     ("District", "District Name"), ("District Code", "District Code"),
                     ("Subdistrict", "Subdistrict Name"), ("Village Code", "Village Code"),
                     ("Local Body", "Local Body Name"), ("LGD Code", "Local Body Code")
                 ]
                 
-                for i, (label, key) in enumerate(d_map):
+                for i, (label, key) in enumerate(fields):
                     target = c1 if i % 2 == 0 else c2
                     target.markdown(f"""
                         <div class="data-tile">
@@ -175,9 +160,11 @@ with m:
                     """, unsafe_allow_html=True)
                 st.markdown('</div>', unsafe_allow_html=True)
 
-# 5. Clean Footer
+# 5. Footer (Matched to Screenshot)
 st.markdown(f"""
     <div class="footer">
-        <span class="footer-text">© 2026 BEYOND CITIES | DEVELOPED BY <span class="author-name">ASHISH BAJPAI</span></span>
+        <div class="footer-text">
+            © 2026 BEYOND CITIES INTELLIGENCE | DEVELOPED BY <span class="bold-name">ASHISH BAJPAI</span>
+        </div>
     </div>
     """, unsafe_allow_html=True)
