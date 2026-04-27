@@ -4,7 +4,7 @@ from supabase import create_client, Client
 # 1. Page Config
 st.set_page_config(page_title="Beyond Cities", layout="wide")
 
-# Direct Connection credentials
+# Direct Connection
 SUPABASE_URL = "https://fqmwbqtpuokntbjkcikp.supabase.co"
 SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZxbXdicXRwdW9rbnRiamtjaWtwIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NzMwNzA1MSwiZXhwIjoyMDkyODgzMDUxfQ.yzmHMSoMF9vqY-ruCprNE4Gu2yXEeQV_q_tG5CqNu-4"
 
@@ -14,120 +14,120 @@ def get_client():
 
 supabase = get_client()
 
-# 2. Premium UI Styling
+# 2. Bright Day-Time UI Styling
 st.markdown("""
     <style>
-    /* Dark City Backdrop */
+    /* Bright Day-Time City Wallpaper */
     .stApp {
-        background: linear-gradient(rgba(10, 15, 30, 0.85), rgba(10, 15, 30, 0.85)), 
-                    url("https://images.unsplash.com/photo-1449824913935-59a10b8d2000?q=80&w=2070&auto=format&fit=crop");
+        background: linear-gradient(rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0.6)), 
+                    url("https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?q=80&w=2044&auto=format&fit=crop");
         background-size: cover;
         background-attachment: fixed;
     }
 
-    /* Professional Header Section */
+    /* Large Header Section */
     .header-container {
         text-align: center;
-        padding: 60px 0 30px 0;
+        padding: 100px 0 60px 0;
     }
     .main-title {
         font-family: 'Inter', sans-serif;
-        font-size: 5.5rem;
+        font-size: 7rem; /* Mega Font size */
         font-weight: 900;
-        letter-spacing: -5px;
+        letter-spacing: -6px;
         color: #ffffff;
         margin: 0;
         text-transform: uppercase;
-        line-height: 0.9;
+        line-height: 0.8;
+        text-shadow: 2px 2px 30px rgba(0,0,0,0.5);
     }
     .tagline {
         color: #10b981;
-        font-size: 1.1rem;
-        font-weight: 600;
-        letter-spacing: 4px;
+        font-size: 2rem; /* Bigger Font */
+        font-weight: 700;
+        letter-spacing: 8px;
         text-transform: uppercase;
-        margin-top: 15px;
-    }
-    .sub-tagline {
-        color: #94a3b8;
-        font-size: 0.95rem;
-        font-weight: 400;
-        margin-top: 8px;
-        letter-spacing: 1px;
+        margin-top: 25px;
+        text-shadow: 2px 2px 10px rgba(0,0,0,0.3);
     }
 
-    /* Search Input Styling */
+    /* Mega Search Input */
     div[data-baseweb="input"] {
-        background-color: rgba(255, 255, 255, 0.05) !important;
-        border: 1px solid rgba(255, 255, 255, 0.12) !important;
-        border-radius: 12px !important;
+        background-color: rgba(255, 255, 255, 0.9) !important;
+        border-radius: 20px !important;
+        padding: 15px !important;
+        font-size: 1.5rem !important;
     }
 
-    /* Result Card Styling */
+    /* Result Card (Spacious View) */
     .result-card {
-        background: rgba(15, 23, 42, 0.75);
-        backdrop-filter: blur(25px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        padding: 40px;
-        border-radius: 24px;
-        margin-top: 30px;
-        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 30px;
+        padding: 60px;
+        margin-top: 50px;
+        box-shadow: 0 40px 100px rgba(0, 0, 0, 0.4);
     }
     .village-header {
-        font-size: 2.5rem;
-        font-weight: 800;
-        color: #ffffff;
-        margin-bottom: 25px;
-        border-bottom: 4px solid #10b981;
+        font-size: 4rem; /* Big Title */
+        font-weight: 900;
+        color: #0f172a;
+        margin-bottom: 40px;
+        border-bottom: 8px solid #10b981;
         display: inline-block;
     }
 
-    /* Data Grid Tiles */
+    /* Data Tiles (Bhara-Bhara look) */
     .data-tile {
-        background: rgba(255, 255, 255, 0.02);
-        padding: 18px;
-        border-radius: 14px;
-        border-left: 5px solid #10b981;
-        margin-bottom: 12px;
+        background: #f8fafc;
+        padding: 30px;
+        border-radius: 20px;
+        border-left: 10px solid #10b981;
+        margin-bottom: 25px;
     }
-    .tile-label { color: #64748b; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
-    .tile-value { color: #f1f5f9; font-size: 1.2rem; font-weight: 600; }
+    .tile-label { color: #64748b; font-size: 1rem; font-weight: 800; text-transform: uppercase; }
+    .tile-value { color: #0f172a; font-size: 1.8rem; font-weight: 700; }
 
-    /* Fixed Footer with Brand Font */
+    /* Professional Footer Branding */
     .footer-bar {
         position: fixed;
         bottom: 0; left: 0; width: 100%;
-        background: rgba(2, 6, 23, 0.98);
-        padding: 20px;
+        background: #ffffff;
+        padding: 25px;
         text-align: center;
-        border-top: 1px solid rgba(255, 255, 255, 0.05);
+        border-top: 1px solid #e2e8f0;
         z-index: 100;
     }
-    .footer-content { color: #94a3b8; font-size: 0.9rem; font-weight: 500; letter-spacing: 1.5px; }
-    .author-name { color: #10b981; font-weight: 800; text-transform: uppercase; }
+    .footer-content { color: #1e293b; font-size: 1.1rem; font-weight: 600; letter-spacing: 2px; }
+    .author-name { 
+        color: #10b981; 
+        font-weight: 900; 
+        text-transform: uppercase; 
+        font-style: italic;
+    }
     </style>
     """, unsafe_allow_html=True)
 
-# 3. Dynamic Header
+# 3. Dynamic Header (3rd line blank as requested)
 st.markdown("""
     <div class="header-container">
         <h1 class="main-title">BEYOND <span style="color: #10b981;">CITIES</span></h1>
         <div class="tagline">Rural Data Intelligence Engine</div>
-        <div class="sub-tagline">Search any village name of Uttar Pradesh</div>
     </div>
     """, unsafe_allow_html=True)
 
-# 4. Functional Engine
+# 4. Search Interface
 l, m, r = st.columns([1, 2, 1])
 with m:
-    q = st.text_input("SEARCH_FIELD", placeholder="Enter Village Name...", label_visibility="collapsed")
+    # Spacer
+    st.markdown("<br>", unsafe_allow_html=True)
+    q = st.text_input("SEARCH_ANY_LOCATION", placeholder="Enter Village Name...", label_visibility="collapsed")
 
     if q:
-        res = supabase.table("villages").select("*").ilike("Village Name", f"%{q}%").limit(30).execute()
+        res = supabase.table("villages").select("*").ilike("Village Name", f"%{q}%").limit(20).execute()
         
         if res.data:
             options = {f"{r['Village Name']} | {r['Subdistrict Name']} | {r['District Name']}": r for r in res.data}
-            sel = st.selectbox("SELECT LOCATION", options=list(options.keys()), index=None)
+            sel = st.selectbox("CHOOSE_VILLAGE", options=list(options.keys()), index=None)
 
             if sel:
                 v = options[sel]
@@ -135,13 +135,13 @@ with m:
                 st.markdown(f'<div class="village-header">{v["Village Name"]}</div>', unsafe_allow_html=True)
                 
                 c1, c2 = st.columns(2)
-                display_map = [
+                display_items = [
                     ("District Name", "District Name"), ("District Code", "District Code"),
-                    ("Subdistrict", "Subdistrict Name"), ("Village Code", "Village Code"),
+                    ("Subdistrict Name", "Subdistrict Name"), ("Village Code", "Village Code"),
                     ("Local Body", "Local Body Name"), ("LGD Code", "Local Body Code")
                 ]
                 
-                for i, (label, key) in enumerate(display_map):
+                for i, (label, key) in enumerate(display_items):
                     target = c1 if i % 2 == 0 else c2
                     target.markdown(f"""
                         <div class="data-tile">
@@ -151,11 +151,11 @@ with m:
                     """, unsafe_allow_html=True)
                 st.markdown('</div>', unsafe_allow_html=True)
         else:
-            st.info("No matching records found for this location.")
+            st.info("No matching records found in the engine database.")
 
-# 5. Fixed Branding Footer
+# 5. Elite Footer
 st.markdown(f"""
     <div class="footer-bar">
-        <div class="footer-content">DEVELOPED BY <span class="author-name">ASHISH BAJPAI</span></div>
+        <div class="footer-content">DESIGNED & DEVELOPED BY <span class="author-name">ASHISH BAJPAI</span></div>
     </div>
     """, unsafe_allow_html=True)
