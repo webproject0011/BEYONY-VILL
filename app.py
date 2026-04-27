@@ -14,7 +14,7 @@ def get_client():
 
 supabase = get_client()
 
-# 2. UI Styling (Added Magnifier Icon & Exact Matching)
+# 2. UI Styling (100% Match with Search Button & Magnifier)
 st.markdown("""
     <style>
     /* Full Page Background */
@@ -50,37 +50,32 @@ st.markdown("""
         margin-top: 15px;
     }
 
-    /* SEARCH WRAPPER FOR MAGNIFIER */
-    .search-container {
-        position: relative;
-        width: 100%;
-    }
-    
-    /* MAGNIFIER ICON CSS */
-    .magnifier-icon {
-        position: absolute;
-        right: 15px;
-        top: 50%;
-        transform: translateY(-50%);
-        color: rgba(255, 255, 255, 0.5);
-        font-size: 20px;
-        z-index: 10;
-        pointer-events: none; /* Icon won't block clicks */
-    }
-
-    /* SEARCH INPUT - Translucent Style */
+    /* SEARCH INPUT & BUTTON ROW styling */
     div[data-baseweb="input"] {
         background-color: rgba(255, 255, 255, 0.1) !important;
         border: 1px solid rgba(255, 255, 255, 0.2) !important;
-        border-radius: 4px !important;
+        border-radius: 4px 0 0 4px !important; /* Rounded only on left */
     }
     
-    input { 
-        color: white !important; 
-        padding-right: 45px !important; /* Space for icon */
+    input { color: white !important; }
+
+    /* SEARCH BUTTON CUSTOM STYLE */
+    .stButton > button {
+        background-color: rgba(255, 255, 255, 0.2) !important;
+        color: white !important;
+        border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        border-radius: 0 4px 4px 0 !important; /* Rounded only on right */
+        height: 45px !important;
+        width: 100% !important;
+        margin-left: -2px !important; /* Connect with input box */
+        transition: 0.3s;
+    }
+    .stButton > button:hover {
+        background-color: #4fc3f7 !important;
+        border-color: #4fc3f7 !important;
     }
 
-    /* SUGGESTIONS LIST - Downward Portal */
+    /* SUGGESTIONS LIST */
     div[data-baseweb="popover"] {
         top: 50px !important;
         background-color: #1a1c23 !important;
@@ -143,14 +138,15 @@ st.markdown("""
 l, m, r = st.columns([1, 2, 1])
 
 with m:
-    # Custom HTML Container for Input + Magnifier Icon
-    st.markdown("""
-        <div class="search-container">
-            <span class="magnifier-icon">🔍</span>
-        </div>
-    """, unsafe_allow_html=True)
+    # Creating a tight row for Input + Magnifier Button
+    sc1, sc2 = st.columns([0.88, 0.12], gap="small")
     
-    q = st.text_input("SEARCH", placeholder="Search 600,000+ villages instantly...", label_visibility="collapsed")
+    with sc1:
+        q = st.text_input("SEARCH", placeholder="Search 600,000+ villages instantly...", label_visibility="collapsed")
+    
+    with sc2:
+        # Action trigger button with magnifier
+        search_trigger = st.button("🔍")
 
     if q:
         res = supabase.table("villages").select("*").ilike("Village Name", f"%{q}%").limit(15).execute()
