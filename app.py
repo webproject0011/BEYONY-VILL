@@ -14,20 +14,20 @@ def get_client():
 
 supabase = get_client()
 
-# 2. UI Styling (Brightness + Dropdown Fix + Animation)
+# 2. UI Styling (Brightness + Dropdown Downwards + Button Fix)
 st.markdown("""
     <style>
-    /* Background with Increased Brightness */
+    /* Background with 40% Brightness Overlay */
     .stApp {
-        background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), 
+        background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), 
                     url("https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?q=80&w=2044&auto=format&fit=crop");
         background-size: cover !important;
         background-position: center !important;
         background-attachment: fixed !important;
     }
 
-    /* Header Section */
-    .header-box { text-align: center; padding: 80px 0 20px 0; }
+    /* Header Styling */
+    .header-box { text-align: center; padding: 60px 0 20px 0; }
     .main-title {
         font-family: 'Inter', sans-serif;
         font-size: 7rem;
@@ -36,26 +36,33 @@ st.markdown("""
         margin: 0;
         text-transform: uppercase;
         line-height: 1;
-        text-shadow: 0px 5px 20px rgba(0,0,0,0.4);
+        text-shadow: 0px 8px 30px rgba(0,0,0,0.4);
     }
     .tagline {
         color: #4fc3f7;
         font-size: 1.2rem;
         font-weight: 700;
-        letter-spacing: 6px;
+        letter-spacing: 5px;
         text-transform: uppercase;
-        margin-top: 20px;
+        margin-top: 15px;
     }
 
-    /* FORCE DROPDOWN TO OPEN DOWNWARDS */
+    /* FORCE SUGGESTIONS DOWNWARDS (PORTAL FIX) */
     div[data-baseweb="popover"] {
-        top: 60px !important;
+        top: 65px !important;
         bottom: auto !important;
     }
 
-    /* Result Card Slide-Up Animation */
+    /* Professional Search Bar Styling */
+    div[data-baseweb="input"] {
+        background-color: rgba(255, 255, 255, 0.2) !important;
+        border: 2px solid rgba(255, 255, 255, 0.3) !important;
+        border-radius: 8px !important;
+    }
+
+    /* Animation for results */
     @keyframes slideUp {
-        from { opacity: 0; transform: translateY(50px); }
+        from { opacity: 0; transform: translateY(40px); }
         to { opacity: 1; transform: translateY(0); }
     }
 
@@ -70,28 +77,28 @@ st.markdown("""
     }
 
     .v-header {
-        font-size: 3.5rem;
+        font-size: 3.2rem;
         font-weight: 800;
         color: #ffffff;
-        margin-bottom: 35px;
-        border-left: 10px solid #4fc3f7;
-        padding-left: 25px;
+        margin-bottom: 30px;
+        border-left: 8px solid #4fc3f7;
+        padding-left: 20px;
     }
 
     .data-tile {
-        background: rgba(255, 255, 255, 0.05);
+        background: rgba(255, 255, 255, 0.04);
         padding: 22px;
         border-radius: 10px;
         margin-bottom: 15px;
     }
     .tile-label { color: #94a3b8; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; }
-    .tile-value { color: #ffffff; font-size: 1.6rem; font-weight: 600; }
+    .tile-value { color: #ffffff; font-size: 1.5rem; font-weight: 600; }
 
-    /* Footer Branding */
+    /* Footer */
     .footer {
         position: fixed;
         bottom: 0; left: 0; width: 100%;
-        background: rgba(0, 0, 0, 0.95);
+        background: rgba(0, 0, 0, 0.9);
         padding: 15px;
         text-align: center;
         z-index: 1000;
@@ -101,7 +108,7 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
-# 3. Header
+# 3. Header Section
 st.markdown("""
     <div class="header-box">
         <h1 class="main-title">BEYOND CITIES</h1>
@@ -109,20 +116,28 @@ st.markdown("""
     </div>
     """, unsafe_allow_html=True)
 
-# 4. Search Logic
+# 4. Search & Suggestion Engine
 l, m, r = st.columns([1, 2, 1])
-with m:
-    st.markdown("<br>", unsafe_allow_html=True)
-    q = st.text_input("SEARCH", placeholder="🔍 Search 100,000+ villages instantly...", label_visibility="collapsed")
 
+with m:
+    # Adding a columns layout for Search Bar + Button
+    sc1, sc2 = st.columns([0.85, 0.15])
+    
+    with sc1:
+        q = st.text_input("SEARCH", placeholder="Search 100,000+ villages...", label_visibility="collapsed")
+    
+    with sc2:
+        search_clicked = st.button("🔍") # This acts as the magnifier search trigger
+
+    # Logical Trigger: Show results if typed OR button clicked
     if q:
         res = supabase.table("villages").select("*").ilike("Village Name", f"%{q}%").limit(15).execute()
         
         if res.data:
             options = {f"{r['Village Name']} | {r['Subdistrict Name']} | {r['District Name']}": r for r in res.data}
             
-            # Dropdown starts here - CSS forces it downwards
-            sel = st.selectbox("SUGGESTIONS", options=list(options.keys()), index=None, label_visibility="collapsed", placeholder="Select from suggestions below ↓")
+            # This dropdown now opens BELOW the search bar
+            sel = st.selectbox("CHOOSE", options=list(options.keys()), index=None, label_visibility="collapsed", placeholder="Suggestions list ↓")
 
             if sel:
                 v = options[sel]
