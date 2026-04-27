@@ -14,120 +14,131 @@ def get_client():
 
 supabase = get_client()
 
-# 2. Bright Day-Time UI Styling
+# 2. Advanced UI Styling
 st.markdown("""
     <style>
-    /* Bright Day-Time City Wallpaper */
+    /* Full Screen Wallpaper Fix */
     .stApp {
-        background: linear-gradient(rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0.6)), 
+        background: linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1)), 
                     url("https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?q=80&w=2044&auto=format&fit=crop");
-        background-size: cover;
-        background-attachment: fixed;
+        background-size: cover !important;
+        background-position: center center !important;
+        background-repeat: no-repeat !important;
+        background-attachment: fixed !important;
+        height: 100vh;
+        width: 100vw;
     }
 
-    /* Large Header Section */
+    /* Massive Professional Header */
     .header-container {
         text-align: center;
-        padding: 100px 0 60px 0;
+        padding: 120px 0 40px 0;
     }
     .main-title {
         font-family: 'Inter', sans-serif;
-        font-size: 7rem; /* Mega Font size */
+        font-size: 8.5rem; /* Massive size */
         font-weight: 900;
-        letter-spacing: -6px;
-        color: #ffffff;
+        letter-spacing: -8px;
+        color: #0f172a; /* Deep contrast color */
         margin: 0;
         text-transform: uppercase;
         line-height: 0.8;
-        text-shadow: 2px 2px 30px rgba(0,0,0,0.5);
     }
+    .blue-accent { color: #0070f3; } /* Electric Blue for visibility */
+
     .tagline {
-        color: #10b981;
-        font-size: 2rem; /* Bigger Font */
-        font-weight: 700;
-        letter-spacing: 8px;
+        color: #1e293b;
+        font-size: 2.2rem;
+        font-weight: 800;
+        letter-spacing: 10px;
         text-transform: uppercase;
-        margin-top: 25px;
-        text-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+        margin-top: 30px;
     }
 
-    /* Mega Search Input */
+    /* Solid Professional Search Bar */
     div[data-baseweb="input"] {
-        background-color: rgba(255, 255, 255, 0.9) !important;
-        border-radius: 20px !important;
-        padding: 15px !important;
-        font-size: 1.5rem !important;
+        background-color: #0f172a !important; /* Solid Dark Theme */
+        border: 2px solid #0070f3 !important;
+        border-radius: 15px !important;
+        padding: 12px !important;
+    }
+    input {
+        color: #ffffff !important;
+        font-size: 1.4rem !important;
     }
 
-    /* Result Card (Spacious View) */
+    /* Result Card (Elite View) */
     .result-card {
-        background: rgba(255, 255, 255, 0.95);
-        border-radius: 30px;
-        padding: 60px;
-        margin-top: 50px;
-        box-shadow: 0 40px 100px rgba(0, 0, 0, 0.4);
+        background: rgba(255, 255, 255, 0.98);
+        border-radius: 25px;
+        padding: 50px;
+        margin-top: 40px;
+        box-shadow: 0 50px 100px rgba(0, 0, 0, 0.3);
+        border-top: 10px solid #0070f3;
     }
     .village-header {
-        font-size: 4rem; /* Big Title */
+        font-size: 3.5rem;
         font-weight: 900;
         color: #0f172a;
-        margin-bottom: 40px;
-        border-bottom: 8px solid #10b981;
-        display: inline-block;
+        margin-bottom: 35px;
     }
 
-    /* Data Tiles (Bhara-Bhara look) */
     .data-tile {
-        background: #f8fafc;
-        padding: 30px;
-        border-radius: 20px;
-        border-left: 10px solid #10b981;
-        margin-bottom: 25px;
+        background: #f1f5f9;
+        padding: 25px;
+        border-radius: 15px;
+        border-right: 6px solid #0070f3;
+        margin-bottom: 20px;
     }
-    .tile-label { color: #64748b; font-size: 1rem; font-weight: 800; text-transform: uppercase; }
-    .tile-value { color: #0f172a; font-size: 1.8rem; font-weight: 700; }
+    .tile-label { color: #64748b; font-size: 0.9rem; font-weight: 800; text-transform: uppercase; }
+    .tile-value { color: #0f172a; font-size: 1.6rem; font-weight: 700; }
 
-    /* Professional Footer Branding */
+    /* Slim & Professional Footer */
     .footer-bar {
         position: fixed;
         bottom: 0; left: 0; width: 100%;
-        background: #ffffff;
-        padding: 25px;
+        background: #0f172a;
+        padding: 12px;
         text-align: center;
-        border-top: 1px solid #e2e8f0;
         z-index: 100;
     }
-    .footer-content { color: #1e293b; font-size: 1.1rem; font-weight: 600; letter-spacing: 2px; }
+    .footer-content { 
+        color: #94a3b8; 
+        font-size: 0.8rem; 
+        font-weight: 400; 
+        letter-spacing: 3px; 
+        text-transform: uppercase;
+    }
     .author-name { 
-        color: #10b981; 
-        font-weight: 900; 
-        text-transform: uppercase; 
-        font-style: italic;
+        color: #ffffff; 
+        font-weight: 700; 
+        border-left: 2px solid #0070f3;
+        padding-left: 10px;
+        margin-left: 10px;
     }
     </style>
     """, unsafe_allow_html=True)
 
-# 3. Dynamic Header (3rd line blank as requested)
+# 3. Heading Section
 st.markdown("""
     <div class="header-container">
-        <h1 class="main-title">BEYOND <span style="color: #10b981;">CITIES</span></h1>
+        <h1 class="main-title">BEYOND <span class="blue-accent">CITIES</span></h1>
         <div class="tagline">Rural Data Intelligence Engine</div>
     </div>
     """, unsafe_allow_html=True)
 
-# 4. Search Interface
+# 4. Search Logic
 l, m, r = st.columns([1, 2, 1])
 with m:
-    # Spacer
     st.markdown("<br>", unsafe_allow_html=True)
-    q = st.text_input("SEARCH_ANY_LOCATION", placeholder="Enter Village Name...", label_visibility="collapsed")
+    q = st.text_input("QUERY_FIELD", placeholder="Enter Village Name...", label_visibility="collapsed")
 
     if q:
         res = supabase.table("villages").select("*").ilike("Village Name", f"%{q}%").limit(20).execute()
         
         if res.data:
             options = {f"{r['Village Name']} | {r['Subdistrict Name']} | {r['District Name']}": r for r in res.data}
-            sel = st.selectbox("CHOOSE_VILLAGE", options=list(options.keys()), index=None)
+            sel = st.selectbox("CHOOSE_LOCATION", options=list(options.keys()), index=None)
 
             if sel:
                 v = options[sel]
@@ -151,11 +162,11 @@ with m:
                     """, unsafe_allow_html=True)
                 st.markdown('</div>', unsafe_allow_html=True)
         else:
-            st.info("No matching records found in the engine database.")
+            st.warning("Data not found in intelligence engine.")
 
-# 5. Elite Footer
+# 5. Slim Footer
 st.markdown(f"""
     <div class="footer-bar">
-        <div class="footer-content">DESIGNED & DEVELOPED BY <span class="author-name">ASHISH BAJPAI</span></div>
+        <div class="footer-content">Designed & Developed by <span class="author-name">Ashish Bajpai</span></div>
     </div>
     """, unsafe_allow_html=True)
