@@ -14,10 +14,10 @@ def get_client():
 
 supabase = get_client()
 
-# 2. UI Styling (100% Match with Screenshots)
+# 2. UI Styling (Added Magnifier Icon & Exact Matching)
 st.markdown("""
     <style>
-    /* Full Page Background with Dark Cityscape Overlay */
+    /* Full Page Background */
     .stApp {
         background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
                     url("https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?q=80&w=2044&auto=format&fit=crop");
@@ -26,21 +26,20 @@ st.markdown("""
         background-attachment: fixed !important;
     }
 
-    /* HEADER SECTION - Exact Font & Alignment */
+    /* HEADER SECTION */
     .header-box { 
         text-align: center; 
         padding-top: 15vh; 
         padding-bottom: 20px; 
     }
     .main-title {
-        font-family: 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-        font-size: 6rem; /* Size matched to screenshot */
+        font-family: 'Inter', sans-serif;
+        font-size: 6rem;
         font-weight: 800;
         color: #FFFFFF;
         margin: 0;
         text-transform: uppercase;
         letter-spacing: 2px;
-        line-height: 1.1;
     }
     .tagline {
         color: #4fc3f7;
@@ -51,24 +50,43 @@ st.markdown("""
         margin-top: 15px;
     }
 
-    /* SEARCH ENGINE UI - Translucent Style */
-    div[data-baseweb="input"], div[data-baseweb="select"] {
+    /* SEARCH WRAPPER FOR MAGNIFIER */
+    .search-container {
+        position: relative;
+        width: 100%;
+    }
+    
+    /* MAGNIFIER ICON CSS */
+    .magnifier-icon {
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: rgba(255, 255, 255, 0.5);
+        font-size: 20px;
+        z-index: 10;
+        pointer-events: none; /* Icon won't block clicks */
+    }
+
+    /* SEARCH INPUT - Translucent Style */
+    div[data-baseweb="input"] {
         background-color: rgba(255, 255, 255, 0.1) !important;
         border: 1px solid rgba(255, 255, 255, 0.2) !important;
         border-radius: 4px !important;
-        color: white !important;
     }
     
-    input { color: white !important; }
+    input { 
+        color: white !important; 
+        padding-right: 45px !important; /* Space for icon */
+    }
 
-    /* SUGGESTIONS LIST - Forced Downward as in Screenshot */
+    /* SUGGESTIONS LIST - Downward Portal */
     div[data-baseweb="popover"] {
         top: 50px !important;
         background-color: #1a1c23 !important;
-        border: 1px solid rgba(255, 255, 255, 0.1) !important;
     }
 
-    /* RESULT CARD - Dark & Professional */
+    /* RESULT CARD */
     .result-card {
         background: rgba(15, 23, 42, 0.95);
         backdrop-filter: blur(20px);
@@ -76,7 +94,6 @@ st.markdown("""
         padding: 40px;
         border-radius: 8px;
         margin-top: 30px;
-        box-shadow: 0 20px 40px rgba(0,0,0,0.5);
     }
 
     .v-header {
@@ -95,7 +112,7 @@ st.markdown("""
     .tile-label { color: #94a3b8; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; }
     .tile-value { color: #FFFFFF; font-size: 1.4rem; font-weight: 500; }
 
-    /* FOOTER - Minimalist Dark Style */
+    /* FOOTER */
     .footer {
         position: fixed;
         bottom: 0; left: 0; width: 100%;
@@ -126,7 +143,13 @@ st.markdown("""
 l, m, r = st.columns([1, 2, 1])
 
 with m:
-    # Main Search Input
+    # Custom HTML Container for Input + Magnifier Icon
+    st.markdown("""
+        <div class="search-container">
+            <span class="magnifier-icon">🔍</span>
+        </div>
+    """, unsafe_allow_html=True)
+    
     q = st.text_input("SEARCH", placeholder="Search 600,000+ villages instantly...", label_visibility="collapsed")
 
     if q:
@@ -135,7 +158,6 @@ with m:
         if res.data:
             options = {f"{r['Village Name']} | {r['Subdistrict Name']} | {r['District Name']}": r for r in res.data}
             
-            # Suggestion List UI
             sel = st.selectbox("SELECT", options=list(options.keys()), index=None, label_visibility="collapsed", placeholder="Select from suggestions below ↓")
 
             if sel:
@@ -160,7 +182,7 @@ with m:
                     """, unsafe_allow_html=True)
                 st.markdown('</div>', unsafe_allow_html=True)
 
-# 5. Footer (Matched to Screenshot)
+# 5. Footer
 st.markdown(f"""
     <div class="footer">
         <div class="footer-text">
