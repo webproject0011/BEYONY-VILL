@@ -185,4 +185,4 @@ st.markdown(f"""
             © 2026 BEYOND CITIES INTELLIGENCE | DEVELOPED BY <span class="bold-name">ASHISH BAJPAI</span>
         </div>
     </div>
-    """, unsafe_allow_html=True) me
+    """, unsafe_allow_html=True)
